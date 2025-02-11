@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>QUBeditotron40365657</title>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    let serviceURLs = {};
+    let urlsAreLoaded = false;
+
+    function loadServiceURLs() {
+        // Fetch config.json for URLs with Fetch API
+        return fetch('config.json')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Response was not ok: ' + res.statusText);
+                }
+                return res.json();
+            })
+            .then(data => {
+                console.log("Fetched data:", data);
+                data.serviceURLs.forEach(service => {
+                    serviceURLs[service.id] = service.url;
+                });
+                console.log("Loaded all service URLs:", serviceURLs);
+                urlsAreLoaded = true;
+            })
+            .catch(error => {
+                console.error("Problem occurred with fetching config:", error);
+            });
+    }
+
+    function waitForURLs(callback) {
+        if (urlsAreLoaded) {
+            callback();
+        } else {
+            setTimeout(() => waitForURLs(callback), 100);
+        }
+    }
+
+    function Wordcount() {
+        waitForURLs(() => {
+            console.log("URL for wordcount:", serviceURLs["wordcount"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["wordcount"] + "/?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function Charcount() {
+        waitForURLs(() => {
+            console.log("URL for charcount:", serviceURLs["charcount"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["charcount"] + "/?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function Scrambletext() {
+        waitForURLs(() => {
+            console.log("URL for scramble:", serviceURLs["scramble"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["scramble"] + "?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function Reversetext() {
+        waitForURLs(() => {
+            console.log("URL for reverse:", serviceURLs["reverse"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["reverse"] + "?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function Duplicate() {
+        waitForURLs(() => {
+            console.log("URL for duplicate:", serviceURLs["duplicate"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["duplicate"] + "?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function Commacount() {
+        waitForURLs(() => {
+            console.log("Service URL for commacount:", serviceURLs["commacount"]);
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.response);
+                    document.getElementById('output').value = j.answer;
+                }
+            };
+
+            let url = serviceURLs["commacount"] + "?text=" + encodeURI(document.getElementById('content').value);
+            xhttp.open("GET", url);
+            xhttp.send();
+        });
+    }
+
+    function saveText() { 
+        const code = document.getElementById('code').value;
+        const content = document.getElementById('content').value; 
+        localStorage.setItem(`text_${code}`, content);
+        alert("Text saved!");
+    }
+
+    function loadText() { 
+        const code = document.getElementById('code').value; 
+        const savedContent = localStorage.getItem(`text_${code}`);
+        if (savedContent) {
+            document.getElementById('content').value = savedContent;
+            alert("Text loaded!"); 
+        } else { 
+            alert("No saved text found for this code.");
+        } 
+    }
+
+    // Load service URLs when the script is first run
+    loadServiceURLs();
+</script>
+
+<style type="text/css">
+body {
+    font-size: 150%;
+    font-family: monospace;
+}
+
+#logo {
+    font-family: Calibri, sans-serif;
+    font-weight: lighter;
+    color: #505050;
+    margin: 0.5em;
+}
+
+#editor {
+    text-align: center;
+    margin-top: 1em;
+}
+
+#output {
+    font-size: 100%;
+    padding: 0.1em;
+    margin: 0.1em;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+}
+
+#code { 
+    font-size: 100%; 
+    padding: 0.1em; 
+    margin: 0.1em; 
+    font-family: monospace; 
+    letter-spacing: 0.1em; 
+}
+
+#content {
+    font-size: 100%;
+    padding: 0.2em;
+    margin: 0.2em;
+    font-family: monospace;
+    letter-spacing: 0.1em;
+}
+
+.operation {
+    border: solid #d0d0d0 1px;
+    background-color: #f0f0f0;
+    padding: 1.5em;
+    margin: 1em;
+    width: 14em;
+}
+</style>
+
+</head>
+<body>
+<div id="editor">
+    <div id="logo">
+        QUBeditotron40365657
+    </div>
+    <div>
+        <textarea rows="5" cols="40" id="content">It was the best of cloud, it was the worst of cloud...</textarea>
+    </div>
+    <div>
+        <input type="text" id="output" readonly="1" value="" />
+    </div>
+    <div>
+        <button class="operation" onclick="Wordcount();">Word Count</button>
+        <button class="operation" onclick="Charcount();">Character Count</button>
+    </div>
+    <div>
+        <button class="operation" onclick="Scrambletext()">Scramble Text</button>
+        <button class="operation" onclick="Reversetext()">Reverse Text</button>
+    </div>
+    <div>
+        <button class="operation" onclick="Duplicate()">Duplicate Words</button>
+        <button class="operation" onclick="Commacount()">Comma Count</button>
+    </div>
+    <div> 
+        <input type="text" id="code" placeholder="Use Save/Load Code"/>
+    </div>
+    <div>
+        <button class="operation" onclick="saveText()">Save Text</button> 
+        <button class="operation" onclick="loadText()">Load Text</button>
+    </div>
+    <div>
+        <textarea rows="5" cols="40">*notes* resets upon refresh: </textarea>
+    </div>
+</div>
+</body>
+</html>

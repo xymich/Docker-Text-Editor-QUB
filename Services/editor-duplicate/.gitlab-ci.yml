@@ -1,0 +1,31 @@
+image: python:3.11-slim
+
+stages:
+  - build
+  - test
+
+install_dependencies:
+  stage: build
+  script:
+  
+    - python -m venv venv
+    - echo "starting virtual env"
+    - source venv/bin/activate
+    - echo "installing dependencies"
+    - pip install flask pytest
+  artifacts:
+    paths:
+      - venv/
+    expire_in: 1 week
+
+testing:
+  stage: test
+  script:
+    - echo "running tests"
+    - source venv/bin/activate
+    - pytest --junitxml=pytest.xml
+  artifacts:
+    reports:
+      junit: pytest.xml
+    paths:
+      - pytest.xml

@@ -1,0 +1,28 @@
+{
+    "serviceURLs": [
+        {
+            "id": "scramble",
+            "url": "http://localhost:7777/scramble"
+        },
+        {
+            "id": "reverse",
+            "url": "http://localhost:7777/reverse"
+        },
+        {
+            "id": "duplicate",
+            "url": "http://localhost:7777/duplicate"
+        },
+        {
+            "id": "commacount",
+            "url": "http://localhost:7777/commacount"
+        },
+        {
+            "id": "wordcount",
+            "url": "http://localhost:7777/wordcount"
+        },
+        {
+            "id": "charcount",
+            "url": "http://localhost:7777/charcount"
+        }
+    ]
+}
