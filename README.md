@@ -4,7 +4,7 @@ This project is a text editor built with microservices. It demonstrates distribu
 
 ## Overview
 
-The application is a web tool for editing text. We call it QUBeditotron40365657.
+The application is a web tool for editing text. We call it QUBeditotron.
 
 It breaks features into separate services instead of using one large program. This allows us to use the best language for each task.
 
@@ -52,13 +52,13 @@ graph TD
 | **Comma Count** | Go | 8040 | Counts commas. |
 | **Monitor** | Python | N/A | Checks service health. |
 
-## Getting Started
+## Getting Started (Locally)
 
 You need Docker and Git installed.
 
 ### Run the Services
 
-Each service needs its own container. Follow these steps to build and run them.
+Each service has its own container. Follow these steps to build and run them.
 
 #### 1. Network
 
@@ -138,10 +138,6 @@ docker run -d --name monitor-editor monitor-editor
     *   **Word/Char Count** Checks external APIs.
     *   **Scramble** Mixes up the words.
     *   **Reverse** Flips the text.
-    *   **Duplicate** Doubles the words.
+    *   **Duplicate** Checks for duplicate words.
     *   **Comma Count** Counts the commas.
 4.  **Save/Load** Enter a code to save your text locally.
-
-## License
-
-[MIT](LICENSE)
